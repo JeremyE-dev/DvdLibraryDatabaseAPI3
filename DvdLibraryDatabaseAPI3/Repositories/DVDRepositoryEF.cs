@@ -40,14 +40,26 @@ namespace DvdLibraryDatabaseAPI3.Repositories
 
         public List<Dvd> GetAll()
         {
-            //List<Dvd> allDvds = new List<Dvd>();
+            List<Dvd> allDvds = new List<Dvd>();
 
             var repository = new DvdLibraryEntities();
 
-            var d = from r in repository.Dvds select r;
+            var d = from r in repository.Dvds
+                    select r;
 
+            allDvds =  d.ToList();
 
-            return d.ToList();
+            foreach(Dvd x in allDvds)
+            {
+                x.releaseYear = x.ReleaseYear.releaseYear;
+                x.director = x.Director.director;
+                x.rating = x.Rating.rating;
+            };
+
+            return allDvds;
+
+           
+            
         }
 
         public List<Dvd> GetByDirectorName(string director)
