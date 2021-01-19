@@ -167,20 +167,26 @@ namespace DvdLibraryDatabaseAPI3.Controllers
                     return BadRequest(ModelState);
                 }
 
-                //put null check in ado code
-                Dvd dvd = RepositoryFactory.Create().GetById(request.DvdId);
+                //check if dvd exists
+                //Dvd dvd = RepositoryFactory.Create().GetById(request.DvdId);
+
+                //if(dvd == null)
+                //{
+                //return NotFound();
+                //}
 
 
-                dvd.DvdId = request.DvdId;
-                dvd.Title = request.Title;
-                dvd.rating = request.rating;
-                dvd.director = request.director;
-                dvd.releaseYear = request.releaseYear;
-                dvd.Notes = request.Notes;
+                //dvd.DvdId = request.DvdId;
+                //dvd.Title = request.Title;
+                //dvd.rating = request.rating;
+                //dvd.director = request.director;
+                //dvd.releaseYear = request.releaseYear;
+                //dvd.Notes = request.Notes;
 
-                RepositoryFactory.Create().Edit(dvd);
-                return Ok(dvd);
-            }
+                RepositoryFactory.Create().Edit(request);
+                return Ok(request);
+            
+        }
 
             [Route("dvds/delete/{dvdId}")]
             [AcceptVerbs("DELETE")]

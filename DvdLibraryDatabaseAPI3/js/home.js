@@ -322,7 +322,7 @@ function getDVDByTitle(title) {
     alert('mades it inside method - title is' + title);
     $.ajax ({
       type: 'GET',
-      url: 'http://localhost:62394/dvds/title',
+      url: 'http://localhost:62394/dvds/get/title/' + title,
       //old url: 'http://localhost:52639/dvds/title/' + title,
       success: function(data, status) {
         $.each(data, function(index, dvd){
@@ -365,7 +365,7 @@ function getDVDByYear(year) {
   alert('mades it inside method - year is: ' + year);
   $.ajax ({
     type: 'GET',
-    url: 'http://localhost:62394/dvds/year/' + year,
+    url: 'http://localhost:62394/dvds/get/year/' + year,
     success: function(data, status) {
       $.each(data, function(index, dvd){
         var title = dvd.Title;

@@ -17,10 +17,10 @@ namespace DvdLibraryDatabaseAPI3.Repositories
             d.Rating = new Rating();
             d.ReleaseYear = new ReleaseYear();
 
-            d.DvdId = repository.Dvds.Count() + 1; 
-                  
+            d.DvdId = repository.Dvds.Count() + 1;
+
             d.Title = dvd.Title;
-            
+
             d.director = dvd.director;
             if (d.director != null)
             {
@@ -32,33 +32,77 @@ namespace DvdLibraryDatabaseAPI3.Repositories
                     d.DirectorId = d.Director.DirectorId;
                     d.Director.director = dvd.director;
                     d.director = d.Director.director;
+                    repository.SaveChanges();
                 }
 
                 else
                 {
-                    d.DirectorId = repository.Directors.First(x => x.director == d.director).DirectorId;
+                    //set director to existing instance of director
+                    d.Director = repository.Directors.First(x => x.director == d.director);
+                    d.Director.DirectorId = repository.Directors.First(x => x.director == d.director).DirectorId;
+                    d.DirectorId = d.Director.DirectorId;
+                    d.director = d.Director.director;
+                    repository.SaveChanges();
                 }
 
             }
 
             d.rating = dvd.rating;
-            
-            //if(d.rating != null)
-            //{
-            //    d.RatingId = repository.Ratings.First(r => r.rating == d.rating).RatingId;
-            //}
 
+            if (d.rating != null)
+            {
+
+                if (repository.Ratings.Count(x => x.rating == d.rating) == 0)
+                {
+                    //add director information to the database
+                    d.Rating.RatingId = repository.Ratings.Count() + 1;
+                    d.RatingId = d.Rating.RatingId;
+                    d.Rating.rating = dvd.rating;
+                    d.rating = d.Rating.rating;
+                    repository.SaveChanges();
+                }
+
+                else
+                {
+                    //set director to existing instance of director
+                    d.Rating = repository.Ratings.First(x => x.rating == d.rating);
+                    d.Rating.RatingId = repository.Ratings.First(x => x.rating == d.rating).RatingId;
+                    d.RatingId = d.Rating.RatingId;
+                    d.rating = d.Rating.rating;
+                    repository.SaveChanges();
+                }
+
+            }
             d.releaseYear = dvd.releaseYear;
 
-            //if (d.releaseYear != null)
-            //{
-            //    d.ReleaseYearId = repository.ReleaseYears.First(y => y.releaseYear == d.releaseYear).ReleaseYearId;
-            //}
+            if (d.releaseYear != null)
+            {
 
-            d.Notes = dvd.Notes;
+                if (repository.ReleaseYears.Count(x => x.releaseYear == d.releaseYear) == 0)
+                {
+                    //add director information to the database
+                    d.ReleaseYear.ReleaseYearId = repository.ReleaseYears.Count() + 1;
+                    d.ReleaseYearId = d.ReleaseYear.ReleaseYearId;
+                    d.ReleaseYear.releaseYear = (int)d.releaseYear;
+                    d.releaseYear = d.ReleaseYear.releaseYear;
+                    repository.SaveChanges();
+                }
 
-            repository.Dvds.Add(dvd);
-            repository.SaveChanges();
+                else
+                {
+                    //set director to existing instance of director
+                    d.ReleaseYear = repository.ReleaseYears.First(x => x.releaseYear == d.releaseYear);
+                    d.ReleaseYear.ReleaseYearId = repository.ReleaseYears.First(x => x.releaseYear == d.releaseYear).ReleaseYearId;
+                    d.ReleaseYearId = d.ReleaseYear.ReleaseYearId;
+                    d.releaseYear = d.ReleaseYear.releaseYear;
+                    repository.SaveChanges();
+
+                }
+                d.Notes = dvd.Notes;
+
+                repository.Dvds.Add(d);
+                repository.SaveChanges();
+            }
         }
 
         public void Delete(int dvdID)
@@ -81,20 +125,103 @@ namespace DvdLibraryDatabaseAPI3.Repositories
         {
             var repository = new DvdLibraryEntities();
 
+          
 
-            Dvd d = GetById(dvd.DvdId);
+            Dvd d = repository.Dvds.Where(x => x.DvdId == dvd.DvdId).First();
 
-            d.DvdId = dvd.DvdId;
-            d.Title = dvd.Title;
-            d.director = dvd.director;
-            d.DirectorId = dvd.DirectorId;
-            d.rating = dvd.rating;
-            d.RatingId = dvd.RatingId;
-            d.releaseYear = dvd.releaseYear;
-            d.ReleaseYearId = dvd.ReleaseYearId;
-            d.Notes = dvd.Notes;
+            d.Director = new Director();
+            d.Rating = new Rating();
+            d.ReleaseYear = new ReleaseYear();
 
-            repository.SaveChanges();
+
+            if (d != null)
+            {
+                d.DvdId = dvd.DvdId;
+                d.Title = dvd.Title;
+                d.director = dvd.director;
+                if (d.director != null)
+                {
+
+                    if (repository.Directors.Count(x => x.director == d.director) == 0)
+                    {
+                        //add director information to the database
+                        d.Director.DirectorId = repository.Directors.Count() + 1;
+                        d.DirectorId = d.Director.DirectorId;
+                        d.Director.director = dvd.director;
+                        d.director = d.Director.director;
+                        repository.SaveChanges();
+                    }
+
+                    else
+                    {
+                        //set director to existing instance of director
+                        d.Director = repository.Directors.First(x => x.director == d.director);
+                        d.Director.DirectorId = repository.Directors.First(x => x.director == d.director).DirectorId;
+                        d.DirectorId = d.Director.DirectorId;
+                        d.director = d.Director.director;
+                        repository.SaveChanges();
+                    }
+
+                }
+
+                d.rating = dvd.rating;
+                if (d.rating != null)
+                {
+
+                    if (repository.Ratings.Count(x => x.rating == d.rating) == 0)
+                    {
+                        //add director information to the database
+                        d.Rating.RatingId = repository.Ratings.Count() + 1;
+                        d.RatingId = d.Rating.RatingId;
+                        d.Rating.rating = dvd.rating;
+                        d.rating = d.Rating.rating;
+                        repository.SaveChanges();
+                    }
+
+                    else
+                    {
+                        //set director to existing instance of director
+                        d.Rating = repository.Ratings.First(x => x.rating == d.rating);
+                        d.Rating.RatingId = repository.Ratings.First(x => x.rating == d.rating).RatingId;
+                        d.RatingId = d.Rating.RatingId;
+                        d.rating = d.Rating.rating;
+                        repository.SaveChanges();
+                    }
+
+                }
+                d.releaseYear = dvd.releaseYear;
+
+                if (d.releaseYear != null)
+                {
+
+                    if (repository.ReleaseYears.Count(x => x.releaseYear == d.releaseYear) == 0)
+                    {
+                        //add director information to the database
+                        //d.ReleaseYear.ReleaseYearId = repository.ReleaseYears.Count() + 1;
+                        d.ReleaseYearId = d.ReleaseYear.ReleaseYearId;
+                        d.ReleaseYear.releaseYear = (int)d.releaseYear;
+                        d.releaseYear = d.ReleaseYear.releaseYear;
+                        repository.SaveChanges();
+                    }
+
+                    else
+                    {
+                        //set director to existing instance of director
+                        d.ReleaseYear = repository.ReleaseYears.First(x => x.releaseYear == d.releaseYear);
+                        d.ReleaseYear.ReleaseYearId = repository.ReleaseYears.First(x => x.releaseYear == d.releaseYear).ReleaseYearId;
+                        d.ReleaseYearId = d.ReleaseYear.ReleaseYearId;
+                        d.releaseYear = d.ReleaseYear.releaseYear;
+                        repository.SaveChanges();
+
+                    }
+
+                    d.Notes = dvd.Notes;
+
+                }
+                //repository.Entry(d).State = System.Data.Entity.EntityState.Modified;
+                repository.SaveChanges();
+            }
+
         }
 
         public List<Dvd> GetAll()
@@ -121,7 +248,19 @@ namespace DvdLibraryDatabaseAPI3.Repositories
 
         public List<Dvd> GetByDirectorName(string director)
         {
-            throw new NotImplementedException();
+            var repository = new DvdLibraryEntities();
+            List<Dvd> allDvds = (from d in repository.Dvds
+                                 where d.director.Contains(director)
+                                 select d).ToList();
+
+            foreach (Dvd x in allDvds)
+            {
+                x.releaseYear = x.ReleaseYear.releaseYear;
+                x.director = x.Director.director;
+                x.rating = x.Rating.rating;
+            };
+
+            return allDvds;
         }
 
         public Dvd GetById(int dvdId)
@@ -143,7 +282,7 @@ namespace DvdLibraryDatabaseAPI3.Repositories
         {
             var repository = new DvdLibraryEntities();
             List<Dvd> allDvds = (from d in repository.Dvds
-                                 where d.rating == rating
+                                 where d.rating.Contains(rating)
                                  select d).ToList();
 
             foreach (Dvd x in allDvds)
@@ -177,7 +316,7 @@ namespace DvdLibraryDatabaseAPI3.Repositories
         {
             var repository = new DvdLibraryEntities();
             List<Dvd> allDvds = (from d in repository.Dvds
-                                 where d.Title == title
+                                 where d.Title.Contains(title)
                                  select d).ToList();
 
             foreach (Dvd x in allDvds)
@@ -190,6 +329,7 @@ namespace DvdLibraryDatabaseAPI3.Repositories
             return allDvds;
         }
 
+        //delete later
         public Dvd GetOneDvdByTitle(string title)
         {
             var repository = new DvdLibraryEntities();
