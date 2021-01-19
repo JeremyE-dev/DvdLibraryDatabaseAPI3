@@ -92,7 +92,7 @@ $('#search-button').on('click', function() {
 function showDvdDetails(dvdID) {
   $.ajax({
     type: 'GET',
-    url: 'http://localhost:52639/dvds/get/' + dvdID,
+    url: 'http://localhost:62394/dvds/get/' + dvdID,
     success: function(data, status) {
       //how do I add title to be the top of the page
       //$('#display-dvd-title').text(data.title);
@@ -127,7 +127,7 @@ clearDVDDisplay();
   var DVDdisplaytable = $('#DVDdisplaycontentRows');
   $.ajax ({
     type: 'GET',
-    url: 'http://localhost:52639/dvds/all',
+    url: 'http://localhost:62394/dvds/all',
     success: function(data, status) {
       $.each(data, function(index, dvd){
         var title = dvd.Title;
@@ -165,7 +165,7 @@ clearDVDDisplay();
 function postDVDInfo() {
   $.ajax({
     type: 'POST',
-    url: 'http://localhost:52639/dvds/add',
+    url: 'http://localhost:62394/dvds/add',
     data: JSON.stringify({
       Title: $('#add-title').val(),
       releaseYear: $('#add-release-year').val(),
@@ -208,7 +208,7 @@ function getDVDToEdit(dvdID) { //connected to 'Edit' on table
 //add check for validation error code here
   $.ajax({
     type: 'GET',
-    url: 'http://localhost:52639/dvds/get/' + dvdID,
+    url: 'http://localhost:62394/dvds/get/' + dvdID,
     success: function(data, status) {
       var headerTitle = data.Title;
       $('#edit-title').val(data.Title);
@@ -243,7 +243,7 @@ $('#save-changes-button').on('click', function() {
   //putEditedDVDInfo(dvdID);
   $.ajax({
     type: 'PUT',
-    url: 'http://localhost:52639/dvds/update/' + dvdID,
+    url: 'http://localhost:62394/dvds/update/' + dvdID,
     data: JSON.stringify({
       DvdId: dvdID,
       Title: $('#edit-title').val(),
@@ -285,7 +285,7 @@ function deleteDVD(dvdId) {
   if(confirm == true) {
     $.ajax({
       type: 'DELETE',
-      url:'http://localhost:52639/dvds/delete/' + dvdId,
+      url:'http://localhost:62394/dvds/delete/' + dvdId,
       success: function(status) {
         //alert('DVD deleted');
         getDVDInfo();
@@ -322,7 +322,7 @@ function getDVDByTitle(title) {
     alert('mades it inside method - title is' + title);
     $.ajax ({
       type: 'GET',
-      url: 'http://localhost:52639/dvds/title',
+      url: 'http://localhost:62394/dvds/title',
       //old url: 'http://localhost:52639/dvds/title/' + title,
       success: function(data, status) {
         $.each(data, function(index, dvd){
@@ -365,7 +365,7 @@ function getDVDByYear(year) {
   alert('mades it inside method - year is: ' + year);
   $.ajax ({
     type: 'GET',
-    url: 'http://localhost:52639/dvds/year/' + year,
+    url: 'http://localhost:62394/dvds/year/' + year,
     success: function(data, status) {
       $.each(data, function(index, dvd){
         var title = dvd.Title;
@@ -405,7 +405,7 @@ function getDVDByDirector(director) {
   alert('mades it inside method - director is: ' + director);
   $.ajax ({
     type: 'GET',
-    url: 'http://localhost:52639/dvds/get/director/' + director,
+    url: 'http://localhost:62394/dvds/get/director/' + director,
     //OLD URL url: 'http://localhost:52639/dvds/director/' + director,
     success: function(data, status) {
       $.each(data, function(index, dvd){
@@ -445,7 +445,7 @@ function getDVDByRating(rating) {
   alert('mades it inside method - director is: ' + rating);
   $.ajax ({
     type: 'GET',
-    url: 'http://localhost:52639/dvds/get/rating/' + rating,
+    url: 'http://localhost:62394/dvds/get/rating/' + rating,
     success: function(data, status) {
       $.each(data, function(index, dvd){
         var title = dvd.Title;
