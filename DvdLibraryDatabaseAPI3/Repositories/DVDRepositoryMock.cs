@@ -116,10 +116,22 @@ namespace DvdLibraryDatabaseAPI3.Repositories
         ////Update an Existing DVD - PUT
         public void Edit(Dvd dvd)
         {
+            
+
+            
             var found = _dvds.FirstOrDefault(d => d.DvdId == dvd.DvdId);
 
             if (found != null)
-                found = dvd;
+            {
+                found.director = dvd.director;
+                found.Title = dvd.Title;
+                found.rating = dvd.rating;
+                found.Notes = dvd.Notes;
+                found.releaseYear = dvd.releaseYear;
+            }
+           
+
+                
         }
 
         //removes dvd by id number
@@ -131,7 +143,17 @@ namespace DvdLibraryDatabaseAPI3.Repositories
 
         List<Dvd> IDvdRepository.GetByTitle(string title)
         {
-            throw new NotImplementedException();
+            List<Dvd> listOfDvdsByTitle = new List<Dvd>();
+            var dvdsByRating = from d in _dvds
+                               where d.Title.Contains(title)
+                               select d;
+
+            foreach (Dvd x in dvdsByRating)
+            {
+                listOfDvdsByTitle.Add(x);
+            }
+
+            return listOfDvdsByTitle;
         }
     }
 }

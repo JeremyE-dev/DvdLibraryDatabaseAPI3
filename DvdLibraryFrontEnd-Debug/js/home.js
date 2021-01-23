@@ -50,38 +50,67 @@ var haveValidationErrors = checkAndDisplayValidationErrors_Search(($('#search-te
   if(haveValidationErrors) {
       alert('there was an error');
   return false;
-  }
-
-
-
+    }
 
   var searchDropdownValue = $('#search-category-dropdown').val();
-  if(searchDropdownValue == "Title") {
-    getDVDByTitle($('#search-term').val());
-    $('#DVDdisplaytableDiv').show();
-    $('#add-form').hide();
-    $('#navbarDiv').show();
-  }
-  else if(searchDropdownValue == "Release Date") {
-    getDVDByYear($('#search-term').val());
-    $('#DVDdisplaytableDiv').show();
-    $('#add-form').hide();
-    $('#navbarDiv').show();
+    if (searchDropdownValue == "Title") {
+        //Empty Search Term check - 1/23/21
+        var input = document.getElementById('search-term')
+        var searchTerm = input.value.length;
+        
+        if (checkForEmptySearch(searchTerm)){
+            return false;
+        }
 
-  }
-  else if(searchDropdownValue == "Director") {
-    getDVDByDirector($('#search-term').val());
-    $('#DVDdisplaytableDiv').show();
-    $('#add-form').hide();
-    $('#navbarDiv').show();
+        getDVDByTitle($('#search-term').val());
+        $('#DVDdisplaytableDiv').show();
+        $('#add-form').hide();
+        $('#navbarDiv').show();
+    }
+    else if (searchDropdownValue == "Release Date") {
+        //Empty Search Term check - 1/23/21
+        var input = document.getElementById('search-term')
+        var searchTerm = input.value.length;
 
-  }
-  else if(searchDropdownValue == "Rating"){
-    getDVDByRating($('#search-term').val());
-    $('#DVDdisplaytableDiv').show();
-    $('#add-form').hide();
-    $('#navbarDiv').show();
-  }
+        if (checkForEmptySearch(searchTerm)) {
+            return false;
+        }
+
+        getDVDByYear($('#search-term').val());
+        $('#DVDdisplaytableDiv').show();
+        $('#add-form').hide();
+        $('#navbarDiv').show();
+
+    }
+     else if (searchDropdownValue == "Director") {
+         //Empty Search Term check - 1/23/21
+         var input = document.getElementById('search-term')
+         var searchTerm = input.value.length;
+
+        if (checkForEmptySearch(searchTerm)) {
+            return false;
+        }
+
+        getDVDByDirector($('#search-term').val());
+        $('#DVDdisplaytableDiv').show();
+        $('#add-form').hide();
+        $('#navbarDiv').show();
+
+     }
+     else if (searchDropdownValue == "Rating") {
+         //Empty Search Term check - 1/23/21
+         var input = document.getElementById('search-term')
+         var searchTerm = input.value.length;
+
+        if (checkForEmptySearch(searchTerm)) {
+            return false;
+        }
+
+        getDVDByRating($('#search-term').val());
+        $('#DVDdisplaytableDiv').show();
+        $('#add-form').hide();
+        $('#navbarDiv').show();
+     }
 
 });
 
@@ -260,10 +289,13 @@ $('#save-changes-button').on('click', function() {
     success: function() {
       clearDVDDisplay();
       $('#errorMessages').empty();
-      getDVDInfo();
-      $('#DVDdisplaytableDiv').show();
-      $('#navbarDiv').show();
-      $('#edit-form').hide();
+        //try to reload to prevent multiple records
+        location.reload();
+
+      //getDVDInfo();
+      //$('#DVDdisplaytableDiv').show();
+     // $('#navbarDiv').show();
+      //$('#edit-form').hide();
 
     //alert('PUT success');
     },
@@ -591,8 +623,32 @@ function checkAndDisplayValidationErrors_Create(input) {
 }
 
 
+function checkForEmptySearch(searchTerm) {
+    $('#errorMessages').empty();
+    var errorMessages = [];
+
+    if (searchTerm == 0) {
+        errorMessages.push("The Search Field Input Was Empty");
+
+    }
+
+    if (errorMessages.length > 0) {
+            $('#errorMessages').append($('<li>').attr({ class: 'list-group-item list-group-item-danger' }).text("The Search Term Was Empty"));
+        
+        return true;
+    }
+
+    else {
+        //return false, indicating there were no errorMessages
+        return false;
+    }
+}
+
 function checkAndDisplayValidationErrors_Search(input) {
-  $('#errorMessages').empty();
+
+
+
+    $('#errorMessages').empty();
 
   //check for HTML5 validation errors and process/display appropriately
   //a place to hold error messages

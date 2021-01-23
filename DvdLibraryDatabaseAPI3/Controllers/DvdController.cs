@@ -48,8 +48,8 @@ namespace DvdLibraryDatabaseAPI3.Controllers
             public IHttpActionResult GetByDirector(string director)
             {
                 List<Dvd> dvds = RepositoryFactory.Create().GetByDirectorName(director);
-
-                if (dvds == null || dvds.Count() == 0)
+            //old: if (dvds == null || dvds.Count() == 0)  
+            if (dvds == null)
                 {
                     return NotFound();
                 }
@@ -67,7 +67,8 @@ namespace DvdLibraryDatabaseAPI3.Controllers
             {
                 List<Dvd> dvds = RepositoryFactory.Create().GetByReleaseYear(year);
 
-                if (dvds == null || dvds.Count() == 0)
+            //old: if (dvds == null || dvds.Count() == 0)    
+            if (dvds == null)
                 {
                     return NotFound();
                 }
@@ -102,7 +103,8 @@ namespace DvdLibraryDatabaseAPI3.Controllers
             {
                 List<Dvd> dvds = RepositoryFactory.Create().GetByRating(rating);
 
-                if (dvds == null || dvds.Count() == 0)
+            //old: if (dvds == null || dvds.Count() == 0)  
+            if (dvds == null)
                 {
                     return NotFound();
                 }
