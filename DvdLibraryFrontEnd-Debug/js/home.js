@@ -62,6 +62,8 @@ var haveValidationErrors = checkAndDisplayValidationErrors_Search(($('#search-te
             return false;
         }
 
+
+
         getDVDByTitle($('#search-term').val());
         $('#DVDdisplaytableDiv').show();
         $('#add-form').hide();
@@ -73,6 +75,10 @@ var haveValidationErrors = checkAndDisplayValidationErrors_Search(($('#search-te
         var searchTerm = input.value.length;
 
         if (checkForEmptySearch(searchTerm)) {
+            return false;
+        }
+
+        if (checkForInteger(input.value)) {
             return false;
         }
 
@@ -635,6 +641,26 @@ function checkForEmptySearch(searchTerm) {
     if (errorMessages.length > 0) {
             $('#errorMessages').append($('<li>').attr({ class: 'list-group-item list-group-item-danger' }).text("The Search Term Was Empty"));
         
+        return true;
+    }
+
+    else {
+        //return false, indicating there were no errorMessages
+        return false;
+    }
+}
+
+function checkForInteger(userInput) {
+    $('#errorMessages').empty();
+    var errorMessages = [];
+
+    if (isNaN(userInput)) {
+        errorMessages.push("Release Date Must Be A Number");
+    }
+
+    if (errorMessages.length > 0) {
+        $('#errorMessages').append($('<li>').attr({ class: 'list-group-item list-group-item-danger' }).text("Release Date Must Be A Number"));
+
         return true;
     }
 

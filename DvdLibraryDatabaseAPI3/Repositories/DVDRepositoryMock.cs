@@ -116,9 +116,7 @@ namespace DvdLibraryDatabaseAPI3.Repositories
         ////Update an Existing DVD - PUT
         public void Edit(Dvd dvd)
         {
-            
-
-            
+                     
             var found = _dvds.FirstOrDefault(d => d.DvdId == dvd.DvdId);
 
             if (found != null)
@@ -129,8 +127,6 @@ namespace DvdLibraryDatabaseAPI3.Repositories
                 found.Notes = dvd.Notes;
                 found.releaseYear = dvd.releaseYear;
             }
-           
-
                 
         }
 
