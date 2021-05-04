@@ -1,1 +1,2 @@
 # DvdLibraryDatabaseAPI3
+Description: This project contains a front end UI where users can create, read, update and delete a records in their music collection. The UI in the project connects to a web service using .NET Web API. HTML, CSS, JavaScript, and jQuery were used to build the interface. A Web API project provides all endpoints and uses dependency injection via factory methods to switch between mock data and ADO.NET, and Entity Framework repositories. 
